@@ -1231,14 +1231,16 @@ function toggleCard(header) {
 
 // Utility functions
 function formatCurrency(value) {
-    if (value >= 1000000000) {
-        return '$' + (value / 1000000000).toFixed(2) + 'B';
-    } else if (value >= 1000000) {
-        return '$' + (value / 1000000).toFixed(2) + 'M';
-    } else if (value >= 1000) {
-        return '$' + (value / 1000).toFixed(2) + 'K';
+    const absValue = Math.abs(value);
+    const sign = value < 0 ? '-' : '';
+    if (absValue >= 1000000000) {
+        return sign + '$' + (absValue / 1000000000).toFixed(2) + 'B';
+    } else if (absValue >= 1000000) {
+        return sign + '$' + (absValue / 1000000).toFixed(2) + 'M';
+    } else if (absValue >= 1000) {
+        return sign + '$' + (absValue / 1000).toFixed(2) + 'K';
     }
-    return '$' + value.toFixed(2);
+    return sign + '$' + absValue.toFixed(2);
 }
 
 function formatQuantity(quantity) {
