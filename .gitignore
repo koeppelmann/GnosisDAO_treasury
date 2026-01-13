@@ -1,0 +1,13 @@
+# Don't commit Python scripts with API keys
+getGnosisDAO.py
+getGnosis_zerion.py
+fetch_ltd_gno.py
+
+# Old/unused cache files
+debank_cache.json
+debank_full_cache.json
+
+# System files
+*.pyc
+__pycache__/
+.DS_Store

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GnosisDAO Treasury Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>GnosisDAO Treasury</h1>
+                <p class="subtitle">Real-time asset holdings - Zerion vs DeBank comparison</p>
+            </div>
+        </header>
+
+        <!-- NAV Summary -->
+        <section class="nav-section">
+            <div class="nav-card">
+                <div class="nav-header">
+                    <h2>NAV per GNO</h2>
+                    <span class="nav-subtitle">Non-GNO assets / Outstanding GNO</span>
+                </div>
+                <div class="nav-value" id="nav-per-gno">-</div>
+                <div class="nav-options">
+                    <label class="nav-checkbox">
+                        <input type="checkbox" id="exclude-ltd-gno" checked>
+                        <span>Exclude Ltd. GNO (0x604e...350c)</span>
+                    </label>
+                </div>
+                <div class="nav-details">
+                    <div class="nav-detail">
+                        <span class="nav-label">Total GNO Supply</span>
+                        <span class="nav-amount" id="gno-supply">3,000,000</span>
+                    </div>
+                    <div class="nav-detail">
+                        <span class="nav-label">DAO GNO Holdings</span>
+                        <span class="nav-amount" id="dao-gno">-</span>
+                    </div>
+                    <div class="nav-detail">
+                        <span class="nav-label">Outstanding GNO</span>
+                        <span class="nav-amount" id="outstanding-gno">-</span>
+                    </div>
+                    <div class="nav-detail">
+                        <span class="nav-label">Non-GNO Portfolio</span>
+                        <span class="nav-amount" id="non-gno-value">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Summary -->
+        <section class="comparison-section">
+            <h2>API Comparison</h2>
+            <div class="comparison-cards">
+                <div class="comparison-card zerion">
+                    <div class="card-header">
+                        <span class="api-name">Zerion</span>
+                        <span class="api-badge">API</span>
+                    </div>
+                    <div class="card-value" id="zerion-total">Loading...</div>
+                    <div class="card-meta">
+                        <span id="zerion-positions">- positions</span>
+                    </div>
+                </div>
+                <div class="comparison-card debank">
+                    <div class="card-header">
+                        <span class="api-name">DeBank</span>
+                        <span class="api-badge">API</span>
+                    </div>
+                    <div class="card-value" id="debank-total">Loading...</div>
+                    <div class="card-meta">
+                        <span id="debank-positions">- tokens + protocols</span>
+                    </div>
+                </div>
+                <div class="comparison-card difference">
+                    <div class="card-header">
+                        <span class="api-name">Difference</span>
+                    </div>
+                    <div class="card-value" id="diff-value">-</div>
+                    <div class="card-meta" id="diff-percent">-</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Breakdown -->
+        <section class="portfolio-section">
+            <div class="portfolio-grid">
+                <div class="portfolio-chart-container">
+                    <h2>Non-GNO Portfolio Breakdown</h2>
+                    <canvas id="portfolio-pie" width="300" height="300"></canvas>
+                    <div id="pie-legend" class="pie-legend"></div>
+                </div>
+                <div class="holdings-container">
+                    <h2>Key Holdings (Absolute Quantities)</h2>
+                    <div class="holdings-grid" id="holdings-grid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Asset Categories Overview -->
+        <section class="categories-section">
+            <h2>Asset Categories (USD Value)</h2>
+            <div class="categories-grid" id="categories-grid">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Search assets...">
+            </div>
+            <div class="filters">
+                <select id="source-filter">
+                    <option value="both">Both Sources</option>
+                    <option value="zerion">Zerion Only</option>
+                    <option value="debank">DeBank Only</option>
+                </select>
+                <select id="category-filter">
+                    <option value="all">All Categories</option>
+                    <option value="eth">ETH & Derivatives</option>
+                    <option value="gno">GNO</option>
+                    <option value="stables">Stablecoins</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="position-type-filter">
+                    <option value="all">All Position Types</option>
+                    <option value="dex-lp">DEX LP Only</option>
+                    <option value="staking">Staking Only</option>
+                    <option value="lending">Lending Only</option>
+                    <option value="wallet">Wallet Only</option>
+                </select>
+                <select id="match-quality-filter">
+                    <option value="comparable">Comparable Only (Recommended)</option>
+                    <option value="all">All Assets</option>
+                    <option value="matched">Well Matched (<20% diff)</option>
+                    <option value="mismatched">Large Discrepancy (>20%)</option>
+                </select>
+                <select id="sort-by">
+                    <option value="value-desc">Value (High to Low)</option>
+                    <option value="value-asc">Value (Low to High)</option>
+                    <option value="diff-desc">Difference (Largest)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                </select>
+            </div>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="comparison">Comparison</button>
+                <button class="view-btn" data-view="by-wallet">By Wallet</button>
+                <button class="view-btn" data-view="by-category">By Category</button>
+            </div>
+        </div>
+
+        <main>
+            <!-- Comparison View -->
+            <div id="comparison-view" class="view-section active">
+                <h2>Asset Comparison (Zerion vs DeBank)</h2>
+                <div class="table-container">
+                    <table id="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Category</th>
+                                <th class="number">Quantity</th>
+                                <th class="number">Zerion Value</th>
+                                <th class="number">DeBank Value</th>
+                                <th class="number">Difference</th>
+                                <th class="number">Diff %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- By Wallet View -->
+            <div id="by-wallet-view" class="view-section">
+                <h2>Holdings by Wallet</h2>
+                <div id="wallets-container"></div>
+            </div>
+
+            <!-- By Category View -->
+            <div id="by-category-view" class="view-section">
+                <h2>Holdings by Category</h2>
+                <div id="category-details-container"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Data sources: Zerion API & DeBank API | Last updated: <span id="last-updated">-</span></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
