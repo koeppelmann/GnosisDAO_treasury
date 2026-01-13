@@ -216,10 +216,150 @@ jobs:
         run: |
           echo "{\"fetched_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > data_metadata.json
 
+      - name: Archive snapshot and generate summary
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          from datetime import datetime
+
+          TODAY = datetime.utcnow().strftime('%Y-%m-%d')
+          ARCHIVE_DIR = f"archive/{TODAY}"
+          os.makedirs(ARCHIVE_DIR, exist_ok=True)
+
+          # Load current data
+          with open('zerion_gnosis_dao_positions.json') as f:
+              zerion_data = json.load(f)
+          with open('debank_balances_positions.json') as f:
+              debank_data = json.load(f)
+          with open('ltd_gno_balance.json') as f:
+              ltd_data = json.load(f)
+
+          # Copy raw data to archive
+          with open(f'{ARCHIVE_DIR}/zerion.json', 'w') as f:
+              json.dump(zerion_data, f)
+          with open(f'{ARCHIVE_DIR}/debank.json', 'w') as f:
+              json.dump(debank_data, f)
+
+          # Calculate summary
+          SYMBOL_NORMALIZATION = {
+              'WETH': 'ETH', 'WSTETH': 'STETH', 'STETH': 'STETH',
+              'WXDAI': 'DAI', 'XDAI': 'DAI', 'SDAI': 'DAI',
+              'USDC.E': 'USDC'
+          }
+
+          def normalize(sym):
+              return SYMBOL_NORMALIZATION.get(sym.upper(), sym.upper())
+
+          # Process Zerion
+          zerion_total = 0
+          assets = {}
+          dao_gno_qty = 0
+          dao_gno_val = 0
+
+          for wallet, positions in zerion_data.items():
+              for pos in positions:
+                  attrs = pos.get('attributes', {})
+                  if attrs.get('fungible_info', {}).get('flags', {}).get('is_trash'):
+                      continue
+                  name = attrs.get('fungible_info', {}).get('name', '')
+                  if '.' in name and ('http' in name or 'www' in name or len(name) > 40):
+                      continue
+
+                  symbol = normalize(attrs.get('fungible_info', {}).get('symbol', 'UNKNOWN'))
+                  value = attrs.get('value', 0) or 0
+                  qty = attrs.get('quantity', {}).get('float', 0) or 0
+
+                  zerion_total += value
+
+                  if symbol not in assets:
+                      assets[symbol] = {'quantity': 0, 'value': 0}
+                  assets[symbol]['quantity'] += qty
+                  assets[symbol]['value'] += value
+
+                  if symbol == 'GNO':
+                      dao_gno_qty += qty
+                      dao_gno_val += value
+
+          # Process DeBank for total
+          debank_total = 0
+          RECEIPT_TOKENS = ['steth', 'wsteth', 'reth', 'cbeth', 'frxeth', 'sfrxeth', 'eeth', 'weeth', 'susde', 'usde']
+
+          for wallet, data in debank_data.items():
+              for token in data.get('tokens', []):
+                  sym = (token.get('symbol') or '').lower()
+                  if any(r in sym for r in RECEIPT_TOKENS):
+                      continue
+                  if token.get('is_verified') == False or not token.get('price'):
+                      continue
+                  debank_total += (token.get('amount', 0) or 0) * (token.get('price', 0) or 0)
+
+              for protocol in data.get('protocols', []):
+                  for item in protocol.get('portfolio_item_list', []):
+                      debank_total += item.get('stats', {}).get('net_usd_value', 0) or 0
+
+          # Calculate NAV
+          GNO_TOTAL_SUPPLY = 3000000
+          ltd_gno = ltd_data.get('gno_balance', 0)
+          outstanding_gno = GNO_TOTAL_SUPPLY - dao_gno_qty - ltd_gno
+          non_gno_value = zerion_total - dao_gno_val
+          nav_per_gno = non_gno_value / outstanding_gno if outstanding_gno > 0 else 0
+
+          summary = {
+              'date': TODAY,
+              'fetched_at': datetime.utcnow().isoformat() + 'Z',
+              'totals': {
+                  'zerion': round(zerion_total, 2),
+                  'debank': round(debank_total, 2)
+              },
+              'assets': {k: {'quantity': round(v['quantity'], 4), 'value': round(v['value'], 2)}
+                         for k, v in sorted(assets.items(), key=lambda x: -x[1]['value'])[:50]},
+              'nav_per_gno': round(nav_per_gno, 2),
+              'dao_gno_holdings': round(dao_gno_qty, 2),
+              'ltd_gno_balance': round(ltd_gno, 2)
+          }
+
+          with open(f'{ARCHIVE_DIR}/summary.json', 'w') as f:
+              json.dump(summary, f, indent=2)
+
+          # Update archive index
+          index_path = 'archive/index.json'
+          if os.path.exists(index_path):
+              with open(index_path) as f:
+                  index = json.load(f)
+          else:
+              index = {'snapshots': []}
+
+          # Remove existing entry for today if present
+          index['snapshots'] = [s for s in index['snapshots'] if s['date'] != TODAY]
+
+          # Add new entry
+          index['snapshots'].append({
+              'date': TODAY,
+              'zerion_total': round(zerion_total, 2),
+              'debank_total': round(debank_total, 2),
+              'nav_per_gno': round(nav_per_gno, 2)
+          })
+
+          # Sort by date descending
+          index['snapshots'].sort(key=lambda x: x['date'], reverse=True)
+
+          # Keep last 365 days
+          index['snapshots'] = index['snapshots'][:365]
+
+          with open(index_path, 'w') as f:
+              json.dump(index, f, indent=2)
+
+          print(f"Archived snapshot to {ARCHIVE_DIR}/")
+          print(f"Zerion total: ${zerion_total:,.2f}")
+          print(f"DeBank total: ${debank_total:,.2f}")
+          print(f"NAV per GNO: ${nav_per_gno:.2f}")
+          EOF
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add *.json
+          git add *.json archive/
           git diff --staged --quiet || git commit -m "Update treasury data $(date -u +%Y-%m-%d)"
           git push

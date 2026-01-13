@@ -50,6 +50,37 @@
             </div>
         </section>
 
+        <!-- Historical Charts Section -->
+        <section class="charts-section">
+            <div class="charts-header">
+                <h2>Historical Data</h2>
+                <div class="charts-controls">
+                    <select id="chart-asset-select">
+                        <option value="total">Total Portfolio Value</option>
+                        <option value="nav">NAV per GNO</option>
+                    </select>
+                    <select id="chart-timeframe">
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 90 Days</option>
+                        <option value="365">Last Year</option>
+                        <option value="all">All Time</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="history-chart" width="800" height="300"></canvas>
+            </div>
+            <div class="chart-legend" id="chart-legend"></div>
+            <div class="snapshot-selector">
+                <label>View historical snapshot:</label>
+                <select id="snapshot-date-select">
+                    <option value="current">Current (Latest)</option>
+                </select>
+                <button id="load-snapshot-btn" class="btn-secondary">Load Snapshot</button>
+                <span id="snapshot-status"></span>
+            </div>
+        </section>
+
         <!-- Comparison Summary -->
         <section class="comparison-section">
             <h2>API Comparison</h2>

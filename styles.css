@@ -143,6 +143,140 @@ header {
     color: white;
 }
 
+/* Historical Charts Section */
+.charts-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.charts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.charts-header h2 {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.charts-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.charts-controls select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.charts-controls select:hover {
+    border-color: var(--accent-blue);
+}
+
+.chart-container {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.chart-placeholder {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 0.95rem;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.chart-legend .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.snapshot-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.snapshot-selector label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.snapshot-selector select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: var(--gnosis-teal);
+    border-color: var(--gnosis-teal);
+}
+
+#snapshot-status {
+    color: var(--accent-blue);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
 /* Comparison Section */
 .comparison-section {
     margin-bottom: 30px;

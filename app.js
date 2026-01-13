@@ -5,6 +5,8 @@ let zerionData = {};
 let debankData = {};
 let comparisonData = [];
 let filteredData = [];
+let historicalIndex = null;
+let isViewingSnapshot = false;
 
 // Asset category definitions
 const CATEGORIES = {
@@ -147,6 +149,7 @@ const PIE_COLORS = [
 async function init() {
     showLoading();
     await loadData();
+    await loadHistoricalIndex();
     processComparisonData();
     updateSummary();
     renderPieChart();
@@ -155,6 +158,7 @@ async function init() {
     renderComparisonTable();
     renderWalletView();
     renderCategoryDetailView();
+    renderHistoricalChart();
     setupEventListeners();
     hideLoading();
 }
@@ -1140,6 +1144,14 @@ function setupEventListeners() {
     // NAV options
     document.getElementById('exclude-ltd-gno').addEventListener('change', updateNAV);
 
+    // Historical chart controls
+    document.getElementById('chart-asset-select')?.addEventListener('change', renderHistoricalChart);
+    document.getElementById('chart-timeframe')?.addEventListener('change', renderHistoricalChart);
+    document.getElementById('load-snapshot-btn')?.addEventListener('click', () => {
+        const date = document.getElementById('snapshot-date-select').value;
+        loadSnapshot(date);
+    });
+
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -1292,6 +1304,312 @@ function showLoading() {
 
 function hideLoading() {
     // Loading is hidden when data is rendered
+}
+
+// ============================================
+// HISTORICAL DATA & CHARTS
+// ============================================
+
+// Load historical index
+async function loadHistoricalIndex() {
+    try {
+        const response = await fetch('archive/index.json');
+        if (response.ok) {
+            historicalIndex = await response.json();
+            populateSnapshotSelector();
+            populateAssetSelector();
+        }
+    } catch (error) {
+        console.log('No historical data available yet');
+        historicalIndex = { snapshots: [] };
+    }
+}
+
+// Populate snapshot date selector
+function populateSnapshotSelector() {
+    const select = document.getElementById('snapshot-date-select');
+    if (!select || !historicalIndex) return;
+
+    select.innerHTML = '<option value="current">Current (Latest)</option>';
+    for (const snapshot of historicalIndex.snapshots) {
+        const option = document.createElement('option');
+        option.value = snapshot.date;
+        option.textContent = snapshot.date;
+        select.appendChild(option);
+    }
+}
+
+// Populate asset selector for charts
+async function populateAssetSelector() {
+    const select = document.getElementById('chart-asset-select');
+    if (!select || !historicalIndex || historicalIndex.snapshots.length === 0) return;
+
+    // Load first snapshot summary to get asset list
+    try {
+        const firstDate = historicalIndex.snapshots[0].date;
+        const response = await fetch(`archive/${firstDate}/summary.json`);
+        if (response.ok) {
+            const summary = await response.json();
+            const assets = Object.keys(summary.assets || {}).slice(0, 20);
+
+            // Add asset options
+            for (const asset of assets) {
+                const optValue = document.createElement('option');
+                optValue.value = `value:${asset}`;
+                optValue.textContent = `${asset} Value`;
+                select.appendChild(optValue);
+
+                const optQty = document.createElement('option');
+                optQty.value = `qty:${asset}`;
+                optQty.textContent = `${asset} Quantity`;
+                select.appendChild(optQty);
+            }
+        }
+    } catch (error) {
+        console.log('Could not load asset list');
+    }
+}
+
+// Load a historical snapshot
+async function loadSnapshot(date) {
+    if (date === 'current') {
+        // Reload current data
+        isViewingSnapshot = false;
+        document.getElementById('snapshot-status').textContent = '';
+        await loadData();
+        processComparisonData();
+        updateSummary();
+        renderPieChart();
+        renderKeyHoldings();
+        renderCategoriesOverview();
+        renderComparisonTable();
+        renderWalletView();
+        renderCategoryDetailView();
+        return;
+    }
+
+    try {
+        document.getElementById('snapshot-status').textContent = 'Loading...';
+
+        const [zerionRes, debankRes] = await Promise.all([
+            fetch(`archive/${date}/zerion.json`),
+            fetch(`archive/${date}/debank.json`)
+        ]);
+
+        if (!zerionRes.ok || !debankRes.ok) {
+            throw new Error('Snapshot not found');
+        }
+
+        zerionData = await zerionRes.json();
+        debankData = await debankRes.json();
+        isViewingSnapshot = true;
+
+        processComparisonData();
+        updateSummary();
+        renderPieChart();
+        renderKeyHoldings();
+        renderCategoriesOverview();
+        renderComparisonTable();
+        renderWalletView();
+        renderCategoryDetailView();
+
+        document.getElementById('snapshot-status').textContent = `Viewing: ${date}`;
+        document.getElementById('last-updated').textContent = date;
+    } catch (error) {
+        console.error('Error loading snapshot:', error);
+        document.getElementById('snapshot-status').textContent = 'Error loading snapshot';
+    }
+}
+
+// Render historical chart
+async function renderHistoricalChart() {
+    const canvas = document.getElementById('history-chart');
+    if (!canvas || !historicalIndex || historicalIndex.snapshots.length === 0) {
+        // Show placeholder message
+        const container = canvas?.parentElement;
+        if (container) {
+            container.innerHTML = '<div class="chart-placeholder">Historical data will appear here after the first daily update runs.</div>';
+        }
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    const chartType = document.getElementById('chart-asset-select')?.value || 'total';
+    const timeframe = parseInt(document.getElementById('chart-timeframe')?.value || '30');
+
+    // Get data points
+    let snapshots = [...historicalIndex.snapshots].reverse(); // Oldest first
+    if (timeframe !== 'all' && !isNaN(timeframe)) {
+        snapshots = snapshots.slice(-timeframe);
+    }
+
+    if (snapshots.length === 0) return;
+
+    // Load detailed data if needed for asset-specific charts
+    let dataPoints = [];
+
+    if (chartType === 'total') {
+        dataPoints = snapshots.map(s => ({
+            date: s.date,
+            zerion: s.zerion_total,
+            debank: s.debank_total
+        }));
+    } else if (chartType === 'nav') {
+        dataPoints = snapshots.map(s => ({
+            date: s.date,
+            value: s.nav_per_gno
+        }));
+    } else if (chartType.startsWith('value:') || chartType.startsWith('qty:')) {
+        const [type, asset] = chartType.split(':');
+        // Need to load summary for each date
+        for (const s of snapshots) {
+            try {
+                const res = await fetch(`archive/${s.date}/summary.json`);
+                if (res.ok) {
+                    const summary = await res.json();
+                    const assetData = summary.assets?.[asset];
+                    if (assetData) {
+                        dataPoints.push({
+                            date: s.date,
+                            value: type === 'value' ? assetData.value : assetData.quantity
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log(`Could not load summary for ${s.date}`);
+            }
+        }
+    }
+
+    if (dataPoints.length === 0) return;
+
+    // Draw chart
+    drawLineChart(ctx, canvas, dataPoints, chartType);
+}
+
+// Draw line chart using Canvas
+function drawLineChart(ctx, canvas, data, chartType) {
+    const width = canvas.width;
+    const height = canvas.height;
+    const padding = { top: 30, right: 80, bottom: 40, left: 80 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+
+    if (data.length === 0) return;
+
+    // Determine if dual series (total) or single series
+    const isDual = chartType === 'total';
+
+    // Get min/max values
+    let allValues = [];
+    if (isDual) {
+        allValues = data.flatMap(d => [d.zerion, d.debank]);
+    } else {
+        allValues = data.map(d => d.value);
+    }
+
+    const minVal = Math.min(...allValues) * 0.95;
+    const maxVal = Math.max(...allValues) * 1.05;
+    const valueRange = maxVal - minVal || 1;
+
+    // Helper to map value to Y coordinate
+    const getY = (val) => padding.top + chartHeight - ((val - minVal) / valueRange) * chartHeight;
+    const getX = (i) => padding.left + (i / (data.length - 1 || 1)) * chartWidth;
+
+    // Draw grid lines
+    ctx.strokeStyle = '#30363d';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+        const y = padding.top + (i / 4) * chartHeight;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(width - padding.right, y);
+        ctx.stroke();
+
+        // Y-axis labels
+        const val = maxVal - (i / 4) * valueRange;
+        ctx.fillStyle = '#8b949e';
+        ctx.font = '11px -apple-system, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(formatChartValue(val, chartType), padding.left - 10, y + 4);
+    }
+
+    // Draw X-axis labels (dates)
+    ctx.textAlign = 'center';
+    const labelStep = Math.max(1, Math.floor(data.length / 6));
+    for (let i = 0; i < data.length; i += labelStep) {
+        const x = getX(i);
+        ctx.fillStyle = '#8b949e';
+        ctx.fillText(data[i].date.slice(5), x, height - padding.bottom + 20);
+    }
+
+    // Draw lines
+    if (isDual) {
+        // Zerion line (blue)
+        drawLine(ctx, data, getX, getY, d => d.zerion, '#2962ff', 'Zerion');
+        // DeBank line (orange)
+        drawLine(ctx, data, getX, getY, d => d.debank, '#fe815f', 'DeBank');
+    } else {
+        // Single line (teal)
+        drawLine(ctx, data, getX, getY, d => d.value, '#04795b', chartType.includes(':') ? chartType.split(':')[1] : 'Value');
+    }
+
+    // Update legend
+    const legend = document.getElementById('chart-legend');
+    if (legend) {
+        if (isDual) {
+            legend.innerHTML = `
+                <span class="legend-item"><span class="legend-dot" style="background:#2962ff"></span>Zerion</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#fe815f"></span>DeBank</span>
+            `;
+        } else {
+            legend.innerHTML = `
+                <span class="legend-item"><span class="legend-dot" style="background:#04795b"></span>${chartType === 'nav' ? 'NAV per GNO' : chartType.split(':')[1]}</span>
+            `;
+        }
+    }
+}
+
+// Draw a single line on the chart
+function drawLine(ctx, data, getX, getY, getValue, color, label) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    for (let i = 0; i < data.length; i++) {
+        const x = getX(i);
+        const y = getY(getValue(data[i]));
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    }
+    ctx.stroke();
+
+    // Draw dots
+    ctx.fillStyle = color;
+    for (let i = 0; i < data.length; i++) {
+        const x = getX(i);
+        const y = getY(getValue(data[i]));
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Format chart value for display
+function formatChartValue(value, chartType) {
+    if (chartType === 'nav') {
+        return '$' + value.toFixed(2);
+    } else if (chartType.startsWith('qty:')) {
+        return formatQuantity(value);
+    } else {
+        return formatCurrency(value);
+    }
 }
 
 // Initialize on DOM ready
