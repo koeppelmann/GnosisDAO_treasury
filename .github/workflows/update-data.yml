@@ -212,6 +212,10 @@ jobs:
           print(f"Saved Ltd. GNO balance: {gno_quantity:,.2f} GNO")
           EOF
 
+      - name: Create metadata file
+        run: |
+          echo "{\"fetched_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > data_metadata.json
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"

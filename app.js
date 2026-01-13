@@ -162,15 +162,24 @@ async function init() {
 // Load both JSON data sources
 async function loadData() {
     try {
-        const [zerionResponse, debankResponse] = await Promise.all([
+        const [zerionResponse, debankResponse, metadataResponse] = await Promise.all([
             fetch('zerion_gnosis_dao_positions.json'),
-            fetch('debank_balances_positions.json')
+            fetch('debank_balances_positions.json'),
+            fetch('data_metadata.json').catch(() => null)
         ]);
 
         zerionData = await zerionResponse.json();
         debankData = await debankResponse.json();
 
-        document.getElementById('last-updated').textContent = new Date().toLocaleString();
+        // Display data fetch timestamp
+        if (metadataResponse && metadataResponse.ok) {
+            const metadata = await metadataResponse.json();
+            const fetchedAt = new Date(metadata.fetched_at);
+            document.getElementById('last-updated').textContent = fetchedAt.toLocaleString();
+        } else {
+            // Fallback: use file modification time approximation
+            document.getElementById('last-updated').textContent = 'Unknown';
+        }
     } catch (error) {
         console.error('Error loading data:', error);
         document.getElementById('comparison-body').innerHTML = `
