@@ -50,6 +50,7 @@ A static web app comparing GnosisDAO treasury holdings from Zerion and DeBank AP
 
 The data is static and must be manually refreshed by running the Python scripts (not included in repo for API key security).
 
-## Live Site
+## Links
 
-https://koeppelmann.github.io/GnosisDAO_treasury/
+- **Live Site:** https://koeppelmann.github.io/GnosisDAO_treasury/
+- **GitHub:** https://github.com/koeppelmann/GnosisDAO_treasury
