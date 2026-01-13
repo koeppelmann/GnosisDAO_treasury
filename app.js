@@ -1424,16 +1424,23 @@ async function loadSnapshot(date) {
 // Render historical chart
 async function renderHistoricalChart() {
     const canvas = document.getElementById('history-chart');
+    const container = canvas?.parentElement;
+
     if (!canvas || !historicalIndex || historicalIndex.snapshots.length === 0) {
         // Show placeholder message
-        const container = canvas?.parentElement;
         if (container) {
             container.innerHTML = '<div class="chart-placeholder">Historical data will appear here after the first daily update runs.</div>';
         }
         return;
     }
 
-    const ctx = canvas.getContext('2d');
+    // Ensure canvas is visible (not replaced by placeholder)
+    if (!container.querySelector('canvas')) {
+        container.innerHTML = '<canvas id="history-chart" width="800" height="300"></canvas>';
+    }
+
+    const actualCanvas = document.getElementById('history-chart');
+    const ctx = actualCanvas.getContext('2d');
     const chartType = document.getElementById('chart-asset-select')?.value || 'total';
     const timeframe = parseInt(document.getElementById('chart-timeframe')?.value || '30');
 
@@ -1484,7 +1491,7 @@ async function renderHistoricalChart() {
     if (dataPoints.length === 0) return;
 
     // Draw chart
-    drawLineChart(ctx, canvas, dataPoints, chartType);
+    drawLineChart(ctx, actualCanvas, dataPoints, chartType);
 }
 
 // Draw line chart using Canvas
@@ -1499,6 +1506,20 @@ function drawLineChart(ctx, canvas, data, chartType) {
     ctx.clearRect(0, 0, width, height);
 
     if (data.length === 0) return;
+
+    // Handle single data point
+    if (data.length === 1) {
+        ctx.fillStyle = '#8b949e';
+        ctx.font = '14px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        const isDual = chartType === 'total';
+        const val = isDual ? data[0].zerion : data[0].value;
+        const label = chartType === 'nav' ? 'NAV per GNO' : (chartType === 'total' ? 'Total Value' : chartType.split(':')[1]);
+        ctx.fillText(`${label}: ${formatChartValue(val, chartType)}`, width / 2, height / 2 - 20);
+        ctx.fillText(`(${data[0].date})`, width / 2, height / 2 + 10);
+        ctx.fillText('More data points will appear as daily updates run.', width / 2, height / 2 + 40);
+        return;
+    }
 
     // Determine if dual series (total) or single series
     const isDual = chartType === 'total';
