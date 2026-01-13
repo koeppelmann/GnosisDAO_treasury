@@ -1,0 +1,218 @@
+name: Update Treasury Data
+
+on:
+  schedule:
+    # Run daily at 6:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch Zerion data
+        env:
+          ZERION_API_KEY: ${{ secrets.ZERION_API_KEY }}
+        run: |
+          python3 << 'EOF'
+          import requests
+          import json
+          import base64
+          import time
+          import os
+
+          API_KEY = os.environ['ZERION_API_KEY']
+          BASE_URL = "https://api.zerion.io/v1"
+          CHAIN_IDS = "ethereum,xdai"
+
+          ACCOUNTS = [
+              "0x849D52316331967b6fF1198e5E32A0eB168D039d",
+              "0xa5C629E04E563355c30885B62928fd6E03558548",
+              "0x15a954001BB47890a4c46A7FE9f06F7c39fF3D68",
+              "0x458cD345B4C05e8DF39d0A07220feb4Ec19F5e6f",
+              "0x6bbe78ee9e474842dbd4ab4987b3cefe88426a92",
+              "0xCdF50be9061086e2eCfE6e4a1BF9164d43568EEC",
+              "0x9065A0F9545817d18b58436771b4d87Bda8f008B",
+              "0x509Ad7278A2F6530Bc24590C83E93fAF8fd46E99",
+              "0x0DA0C3e52C977Ed3cBc641fF02DD271c3ED55aFe",
+              "0x2923c1B5313F7375fdaeE80b7745106deBC1b53E",
+              "0x7eEa4286E9e82ba332F49400D037609BB1Cf70DA",
+              "0x45a09fabD540b54f499212B3f579f0cF3393Ab6b",
+              "0x0668792caF78D5bad6cD0B8EcE032dFA7C11aC60",
+              "0x823A92aB789b15B88F43d798c332d6F38a32f0f6",
+              "0x93EbF01356f44A1b0734081b0440bFf7bAcf72Ec",
+              "0x399948eee21c5627Adb7De4A7EFe712245D48442",
+              "0x4971DD016127F390a3EF6b956Ff944d0E2e1e462",
+              "0x10E4597fF93cbee194F4879f8f1d54a370DB6969",
+              "0x5BE8aB1c28ee22Cdf9B136FEDa7D8f20876Bfc0F",
+              "0x689d4bd36bc1938Af5cA2673c3c753235e3b4D2b",
+              "0x813804d2D0820a6D8139946229BB840591bAEB47",
+              "0x2Bd0563e3e2C55edDaBe4E469a02cA6652fB9e4A"
+          ]
+
+          def get_auth_headers():
+              auth_str = f"{API_KEY}:"
+              b64_auth = base64.b64encode(auth_str.encode()).decode()
+              return {"Authorization": f"Basic {b64_auth}", "Accept": "application/json"}
+
+          def get_all_positions(address, headers):
+              url = f"{BASE_URL}/wallets/{address}/positions"
+              params = {"filter[chain_ids]": CHAIN_IDS, "filter[positions]": "no_filter", "currency": "usd", "page[size]": 100}
+              all_positions = []
+              while url:
+                  try:
+                      response = requests.get(url, headers=headers, params=params)
+                      if response.status_code == 429:
+                          time.sleep(2)
+                          continue
+                      response.raise_for_status()
+                      data = response.json()
+                      all_positions.extend(data.get('data', []))
+                      url = data.get('links', {}).get('next')
+                      params = None
+                  except Exception as e:
+                      print(f"Error: {e}")
+                      break
+              return all_positions
+
+          headers = get_auth_headers()
+          results = {}
+          for i, account in enumerate(ACCOUNTS):
+              print(f"[{i+1}/{len(ACCOUNTS)}] {account}")
+              results[account] = get_all_positions(account, headers)
+              time.sleep(0.5)
+
+          with open("zerion_gnosis_dao_positions.json", "w") as f:
+              json.dump(results, f, indent=2)
+          print("Saved zerion_gnosis_dao_positions.json")
+          EOF
+
+      - name: Fetch DeBank data
+        env:
+          DEBANK_API_KEY: ${{ secrets.DEBANK_API_KEY }}
+        run: |
+          python3 << 'EOF'
+          import requests
+          import json
+          import os
+
+          ACCESS_KEY = os.environ['DEBANK_API_KEY']
+          BASE_URL = "https://pro-openapi.debank.com/v1"
+          CHAIN_IDS = "eth,xdai"
+
+          ACCOUNTS = [
+              "0x849D52316331967b6fF1198e5E32A0eB168D039d",
+              "0xa5C629E04E563355c30885B62928fd6E03558548",
+              "0x15a954001BB47890a4c46A7FE9f06F7c39fF3D68",
+              "0x458cD345B4C05e8DF39d0A07220feb4Ec19F5e6f",
+              "0x6bbe78ee9e474842dbd4ab4987b3cefe88426a92",
+              "0xCdF50be9061086e2eCfE6e4a1BF9164d43568EEC",
+              "0x9065A0F9545817d18b58436771b4d87Bda8f008B",
+              "0x509Ad7278A2F6530Bc24590C83E93fAF8fd46E99",
+              "0x0DA0C3e52C977Ed3cBc641fF02DD271c3ED55aFe",
+              "0x2923c1B5313F7375fdaeE80b7745106deBC1b53E",
+              "0x7eEa4286E9e82ba332F49400D037609BB1Cf70DA",
+              "0x45a09fabD540b54f499212B3f579f0cF3393Ab6b",
+              "0x0668792caF78D5bad6cD0B8EcE032dFA7C11aC60",
+              "0x823A92aB789b15B88F43d798c332d6F38a32f0f6",
+              "0x93EbF01356f44A1b0734081b0440bFf7bAcf72Ec",
+              "0x399948eee21c5627Adb7De4A7EFe712245D48442",
+              "0x4971DD016127F390a3EF6b956Ff944d0E2e1e462",
+              "0x10E4597fF93cbee194F4879f8f1d54a370DB6969",
+              "0x5BE8aB1c28ee22Cdf9B136FEDa7D8f20876Bfc0F",
+              "0x689d4bd36bc1938Af5cA2673c3c753235e3b4D2b",
+              "0x813804d2D0820a6D8139946229BB840591bAEB47",
+              "0x2Bd0563e3e2C55edDaBe4E469a02cA6652fB9e4A"
+          ]
+
+          headers = {'AccessKey': ACCESS_KEY, 'accept': 'application/json'}
+
+          def get_tokens(address):
+              try:
+                  r = requests.get(f"{BASE_URL}/user/all_token_list", params={'id': address, 'chain_ids': CHAIN_IDS, 'is_all': 'true'}, headers=headers)
+                  r.raise_for_status()
+                  return r.json()
+              except Exception as e:
+                  print(f"Error: {e}")
+                  return []
+
+          def get_protocols(address):
+              try:
+                  r = requests.get(f"{BASE_URL}/user/all_complex_protocol_list", params={'id': address, 'chain_ids': CHAIN_IDS}, headers=headers)
+                  r.raise_for_status()
+                  return r.json()
+              except Exception as e:
+                  print(f"Error: {e}")
+                  return []
+
+          all_data = {}
+          for i, account in enumerate(ACCOUNTS):
+              print(f"[{i+1}/{len(ACCOUNTS)}] {account}")
+              all_data[account] = {"tokens": get_tokens(account), "protocols": get_protocols(account)}
+
+          with open("debank_balances_positions.json", "w") as f:
+              json.dump(all_data, f, indent=2)
+          print("Saved debank_balances_positions.json")
+          EOF
+
+      - name: Fetch Ltd. GNO balance
+        env:
+          ZERION_API_KEY: ${{ secrets.ZERION_API_KEY }}
+        run: |
+          python3 << 'EOF'
+          import requests
+          import json
+          import base64
+          import os
+          from datetime import datetime
+
+          API_KEY = os.environ['ZERION_API_KEY']
+          LTD_ADDRESS = '0x604e4557e9020841f4e8eb98148de3d3cdea350c'
+
+          auth = base64.b64encode(f"{API_KEY}:".encode()).decode()
+          headers = {'Authorization': f'Basic {auth}', 'Accept': 'application/json'}
+
+          response = requests.get(
+              f"https://api.zerion.io/v1/wallets/{LTD_ADDRESS}/positions",
+              headers=headers,
+              params={'filter[chain_ids]': 'ethereum,xdai', 'currency': 'usd'}
+          )
+          response.raise_for_status()
+          data = response.json()
+
+          gno_quantity = sum(
+              p.get('attributes', {}).get('quantity', {}).get('float', 0)
+              for p in data.get('data', [])
+              if (p.get('attributes', {}).get('fungible_info', {}).get('symbol') or '').upper() == 'GNO'
+          )
+
+          result = {
+              'address': LTD_ADDRESS,
+              'gno_balance': gno_quantity,
+              'fetched_at': datetime.now().isoformat()
+          }
+
+          with open('ltd_gno_balance.json', 'w') as f:
+              json.dump(result, f, indent=2)
+          print(f"Saved Ltd. GNO balance: {gno_quantity:,.2f} GNO")
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add *.json
+          git diff --staged --quiet || git commit -m "Update treasury data $(date -u +%Y-%m-%d)"
+          git push
