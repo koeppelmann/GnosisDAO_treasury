@@ -1310,6 +1310,9 @@ function hideLoading() {
 // HISTORICAL DATA & CHARTS
 // ============================================
 
+// Chart state for hover detection
+let chartState = null;
+
 // Load historical index
 async function loadHistoricalIndex() {
     try {
@@ -1490,8 +1493,9 @@ async function renderHistoricalChart() {
 
     if (dataPoints.length === 0) return;
 
-    // Draw chart
+    // Draw chart and setup hover
     drawLineChart(ctx, actualCanvas, dataPoints, chartType);
+    setupChartHover(actualCanvas, dataPoints, chartType);
 }
 
 // Draw line chart using Canvas
@@ -1518,6 +1522,7 @@ function drawLineChart(ctx, canvas, data, chartType) {
         ctx.fillText(`${label}: ${formatChartValue(val, chartType)}`, width / 2, height / 2 - 20);
         ctx.fillText(`(${data[0].date})`, width / 2, height / 2 + 10);
         ctx.fillText('More data points will appear as daily updates run.', width / 2, height / 2 + 40);
+        chartState = null;
         return;
     }
 
@@ -1539,6 +1544,9 @@ function drawLineChart(ctx, canvas, data, chartType) {
     // Helper to map value to Y coordinate
     const getY = (val) => padding.top + chartHeight - ((val - minVal) / valueRange) * chartHeight;
     const getX = (i) => padding.left + (i / (data.length - 1 || 1)) * chartWidth;
+
+    // Store chart state for hover detection
+    chartState = { data, chartType, padding, chartWidth, chartHeight, getX, getY, isDual };
 
     // Draw grid lines
     ctx.strokeStyle = '#30363d';
@@ -1631,6 +1639,106 @@ function formatChartValue(value, chartType) {
     } else {
         return formatCurrency(value);
     }
+}
+
+// Format precise value for tooltip (no abbreviation)
+function formatPreciseValue(value, chartType) {
+    if (chartType === 'nav') {
+        return '$' + value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } else if (chartType.startsWith('qty:')) {
+        return value.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+    } else {
+        return '$' + value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+}
+
+// Setup chart hover tooltip
+function setupChartHover(canvas, data, chartType) {
+    // Create or get tooltip element
+    let tooltip = document.getElementById('chart-tooltip');
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'chart-tooltip';
+        tooltip.style.cssText = `
+            position: absolute;
+            background: var(--bg-tertiary, #21262d);
+            border: 1px solid var(--border-color, #30363d);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            color: var(--text-primary, #c9d1d9);
+        `;
+        document.body.appendChild(tooltip);
+    }
+
+    // Remove old listeners by cloning
+    const newCanvas = canvas.cloneNode(true);
+    canvas.parentNode.replaceChild(newCanvas, canvas);
+
+    newCanvas.addEventListener('mousemove', (e) => {
+        if (!chartState || chartState.data.length < 2) {
+            tooltip.style.display = 'none';
+            return;
+        }
+
+        const rect = newCanvas.getBoundingClientRect();
+        const scaleX = newCanvas.width / rect.width;
+        const mouseX = (e.clientX - rect.left) * scaleX;
+
+        const { data, chartType, padding, chartWidth, isDual } = chartState;
+
+        // Check if mouse is in chart area
+        if (mouseX < padding.left || mouseX > padding.left + chartWidth) {
+            tooltip.style.display = 'none';
+            return;
+        }
+
+        // Find closest data point
+        const relativeX = mouseX - padding.left;
+        const dataIndex = Math.round((relativeX / chartWidth) * (data.length - 1));
+        const clampedIndex = Math.max(0, Math.min(data.length - 1, dataIndex));
+        const point = data[clampedIndex];
+
+        if (!point) {
+            tooltip.style.display = 'none';
+            return;
+        }
+
+        // Build tooltip content
+        let content = `<div style="font-weight:600;margin-bottom:4px;">${point.date}</div>`;
+        if (isDual) {
+            content += `<div style="color:#2962ff;">Zerion: ${formatPreciseValue(point.zerion, chartType)}</div>`;
+            content += `<div style="color:#fe815f;">DeBank: ${formatPreciseValue(point.debank, chartType)}</div>`;
+            const diff = point.zerion - point.debank;
+            content += `<div style="color:#8b949e;font-size:11px;margin-top:4px;">Diff: ${diff >= 0 ? '+' : ''}${formatPreciseValue(diff, chartType)}</div>`;
+        } else {
+            const label = chartType === 'nav' ? 'NAV per GNO' : (chartType.includes(':') ? chartType.split(':')[1] : 'Value');
+            content += `<div>${label}: ${formatPreciseValue(point.value, chartType)}</div>`;
+        }
+
+        tooltip.innerHTML = content;
+        tooltip.style.display = 'block';
+
+        // Position tooltip near cursor
+        const tooltipX = e.clientX + 15;
+        const tooltipY = e.clientY - 10;
+
+        // Keep tooltip on screen
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const maxX = window.innerWidth - tooltipRect.width - 10;
+        const maxY = window.innerHeight - tooltipRect.height - 10;
+
+        tooltip.style.left = Math.min(tooltipX, maxX) + 'px';
+        tooltip.style.top = Math.max(10, Math.min(tooltipY, maxY)) + 'px';
+    });
+
+    newCanvas.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+    });
 }
 
 // Initialize on DOM ready
