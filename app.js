@@ -1493,9 +1493,10 @@ async function renderHistoricalChart() {
 
     if (dataPoints.length === 0) return;
 
-    // Draw chart and setup hover
-    drawLineChart(ctx, actualCanvas, dataPoints, chartType);
-    setupChartHover(actualCanvas, dataPoints, chartType);
+    // Setup hover first (clones canvas), then draw to the new canvas
+    const canvasForDrawing = setupChartHover(actualCanvas);
+    const ctxForDrawing = canvasForDrawing.getContext('2d');
+    drawLineChart(ctxForDrawing, canvasForDrawing, dataPoints, chartType);
 }
 
 // Draw line chart using Canvas
@@ -1652,8 +1653,8 @@ function formatPreciseValue(value, chartType) {
     }
 }
 
-// Setup chart hover tooltip
-function setupChartHover(canvas, data, chartType) {
+// Setup chart hover tooltip - returns the new canvas element
+function setupChartHover(canvas) {
     // Create or get tooltip element
     let tooltip = document.getElementById('chart-tooltip');
     if (!tooltip) {
@@ -1739,6 +1740,8 @@ function setupChartHover(canvas, data, chartType) {
     newCanvas.addEventListener('mouseleave', () => {
         tooltip.style.display = 'none';
     });
+
+    return newCanvas;
 }
 
 // Initialize on DOM ready
