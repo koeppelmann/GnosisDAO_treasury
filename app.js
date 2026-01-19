@@ -296,7 +296,10 @@ function processComparisonData() {
             const asset = assetMap.get(key);
             const quantity = attrs.quantity?.float || 0;
             asset.zerionValue += value;
-            asset.zerionQuantity += quantity;
+            // Only count quantity if position has value (skip locked/vesting tokens with $0 value)
+            if (value > 0) {
+                asset.zerionQuantity += quantity;
+            }
 
             // Detect position type based on protocol or token characteristics
             let posType = 'wallet';
@@ -311,9 +314,12 @@ function processComparisonData() {
                 posType = 'staking';
             }
 
-            asset.zerionPositions.push({ wallet, value, quantity, positionType: posType, walletName: WALLET_NAMES[wallet] || 'Unknown' });
-            asset.positionTypes.add(posType);
-            asset.valueByType[posType] = (asset.valueByType[posType] || 0) + value;
+            // Only add position if it has value (skip locked/vesting with $0)
+            if (value > 0) {
+                asset.zerionPositions.push({ wallet, value, quantity, positionType: posType, walletName: WALLET_NAMES[wallet] || 'Unknown' });
+                asset.positionTypes.add(posType);
+                asset.valueByType[posType] = (asset.valueByType[posType] || 0) + value;
+            }
         }
     }
 
