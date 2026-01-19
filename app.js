@@ -32,10 +32,8 @@ const CATEGORIES = {
     }
 };
 
-// Receipt tokens that represent protocol positions (to avoid double counting in DeBank)
-// These appear in DeBank wallet tokens AND also in protocol positions (e.g., stETH in wallet + Lido protocol)
-// We filter them from DeBank wallet tokens since they're already counted in protocol net_usd_value
-// Note: sDAI is NOT filtered - it's only in wallet tokens, not double-counted in protocols
+// Receipt tokens - used for categorization (staking position type)
+// Note: Filtering is now done conditionally based on whether wallet has corresponding protocol
 const RECEIPT_TOKENS = [
     'steth', 'wsteth', 'reth', 'cbeth', 'frxeth', 'sfrxeth', 'eeth', 'weeth',
     'meth', 'oeth', 'ankreth', 'sweth', 'ethx', 'oseth', 'beth',
@@ -44,11 +42,24 @@ const RECEIPT_TOKENS = [
     'agnowsteth', 'agno'  // Aave receipt tokens on Gnosis
 ];
 
-// Check if a token is a receipt token (already counted in protocol)
+// Check if a token is a receipt/staking token (for categorization)
 function isReceiptToken(symbol, name) {
     const lowerSymbol = (symbol || '').toLowerCase();
     const lowerName = (name || '').toLowerCase();
     return RECEIPT_TOKENS.some(r => lowerSymbol.includes(r) || lowerName.includes(r));
+}
+
+// Helper: Check if wallet has a protocol that would account for a receipt token
+function shouldSkipReceiptToken(symbol, protocols) {
+    const walletProtocols = new Set(protocols.map(p => (p.name || '').toLowerCase()));
+    const hasLido = [...walletProtocols].some(p => p.includes('lido'));
+    const hasAave = [...walletProtocols].some(p => p.includes('aave'));
+
+    const lowerSymbol = (symbol || '').toLowerCase();
+    const isLidoToken = ['steth', 'wsteth'].some(t => lowerSymbol.includes(t));
+    const isAaveToken = ['atoken', 'aeth', 'agno'].some(t => lowerSymbol.includes(t));
+
+    return (isLidoToken && hasLido) || (isAaveToken && hasAave);
 }
 
 // Key tokens to show in holdings summary
@@ -320,8 +331,9 @@ function processComparisonData() {
             // Skip zero values and spam tokens using improved spam detection
             if (value < 1) continue;
             if (isSpamToken(token)) continue;
-            // Skip receipt tokens - they are already counted in protocol positions (avoid double counting)
-            if (isReceiptToken(symbol, name)) continue;
+
+            // Skip receipt tokens ONLY if wallet has corresponding protocol (avoid double counting)
+            if (shouldSkipReceiptToken(symbol, protocols)) continue;
 
             // Use normalized symbol for grouping
             const key = normalizeSymbol(symbol);
@@ -504,14 +516,16 @@ function updateSummary() {
 
     let debankTotal = 0;
     for (const [wallet, data] of Object.entries(debankData)) {
-        // Tokens (excluding receipts to avoid double count with protocols)
+        const protocols = data.protocols || [];
+
+        // Tokens (excluding receipts only if wallet has corresponding protocol)
         for (const token of data.tokens || []) {
             if (isSpamToken(token)) continue;
-            if (isReceiptToken(token.symbol, token.name)) continue;
+            if (shouldSkipReceiptToken(token.symbol, protocols)) continue;
             debankTotal += (token.amount || 0) * (token.price || 0);
         }
         // Protocols
-        for (const protocol of data.protocols || []) {
+        for (const protocol of protocols) {
             for (const item of protocol.portfolio_item_list || []) {
                 debankTotal += item.stats?.net_usd_value || 0;
             }
@@ -967,17 +981,18 @@ function renderWalletView() {
 
         // Calculate DeBank total for wallet
         const debankInfo = debankData[wallet] || { tokens: [], protocols: [] };
+        const protocols = debankInfo.protocols || [];
         let debankTotal = 0;
 
         for (const token of debankInfo.tokens || []) {
             if (token.is_verified !== false && token.price > 0) {
-                // Skip receipt tokens - they are counted in protocol positions
-                if (isReceiptToken(token.symbol, token.name)) continue;
+                // Skip receipt tokens only if wallet has corresponding protocol
+                if (shouldSkipReceiptToken(token.symbol, protocols)) continue;
                 debankTotal += (token.amount || 0) * (token.price || 0);
             }
         }
 
-        for (const protocol of debankInfo.protocols || []) {
+        for (const protocol of protocols) {
             for (const item of protocol.portfolio_item_list || []) {
                 debankTotal += item.stats?.net_usd_value || 0;
             }
@@ -1036,11 +1051,12 @@ function renderWalletPositions(wallet) {
 
     // Add/merge DeBank positions
     const debankInfo = debankData[wallet] || { tokens: [], protocols: [] };
+    const protocols = debankInfo.protocols || [];
 
     for (const token of debankInfo.tokens || []) {
         if (token.is_verified === false || !token.price) continue;
-        // Skip receipt tokens - they are counted in protocol positions
-        if (isReceiptToken(token.symbol, token.name)) continue;
+        // Skip receipt tokens only if wallet has corresponding protocol
+        if (shouldSkipReceiptToken(token.symbol, protocols)) continue;
         const value = (token.amount || 0) * (token.price || 0);
         if (value < 1) continue;
 
