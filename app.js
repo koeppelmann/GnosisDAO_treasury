@@ -573,9 +573,7 @@ async function updateNAV() {
 
     // Track items to exclude from double/triple counting
     let aaveReceiptTokenValue = 0;  // aEthWETH, aEthDAI etc that duplicate Aave deposits
-    let osGnoLoanValue = 0;         // osGNO "loan" positions that duplicate StakeWise deposits
-    let gnoDerivativeValue = 0;     // osGNO and GNO in LPs (should be treated like GNO for NAV)
-    let gnoDerivativeQty = 0;       // Quantity of GNO-equivalent in derivatives/LPs
+    let osGnoValue = 0;             // osGNO duplicates the underlying GNO in StakeWise
 
     for (const [wallet, positions] of Object.entries(zerionData)) {
         for (const pos of positions) {
@@ -613,16 +611,11 @@ async function updateNAV() {
                     daoGnoValue += val;
                 }
             }
-            // osGNO derivatives - treat as GNO-equivalent
+            // osGNO - all osGNO positions are derivatives of GNO already counted via StakeWise deposits
+            // We exclude ALL osGNO from non-GNO value but do NOT add to daoGnoQuantity (would double count)
             else if (sym === 'OSGNO') {
-                if (posType === 'loan' && protocol.includes('stakewise')) {
-                    // osGNO "loan" is a duplicate of the StakeWise deposit - exclude from total
-                    osGnoLoanValue += val;
-                } else {
-                    // osGNO in wallet or deposited elsewhere - count as GNO-equivalent
-                    gnoDerivativeQty += qty;
-                    gnoDerivativeValue += val;
-                }
+                // Exclude osGNO value from portfolio (it's already counted via the underlying GNO deposit)
+                osGnoValue += val;
             }
             // Aave receipt tokens - check for double counting
             else if (sym.startsWith('AETH') && posType === 'wallet') {
@@ -634,11 +627,7 @@ async function updateNAV() {
 
     // Adjust for double counting
     totalPortfolioValue -= aaveReceiptTokenValue;  // Remove Aave receipt token duplicates
-    totalPortfolioValue -= osGnoLoanValue;         // Remove osGNO loan duplicates
-
-    // Add GNO derivatives to GNO totals (they represent GNO holdings)
-    daoGnoQuantity += gnoDerivativeQty;
-    daoGnoValue += gnoDerivativeValue;
+    totalPortfolioValue -= osGnoValue;             // Remove osGNO (already counted via StakeWise GNO deposits)
 
     // If excluding Ltd. GNO, fetch the balance and remove from circulating supply
     let ltdGnoExclusion = 0;
@@ -656,9 +645,8 @@ async function updateNAV() {
     // Log adjustments for debugging
     console.log('NAV Adjustments:', {
         aaveReceiptTokenValue,
-        osGnoLoanValue,
-        gnoDerivativeValue,
-        gnoDerivativeQty,
+        aaveReceiptTokenValue,
+        osGnoValue,
         totalPortfolioValue,
         daoGnoQuantity,
         daoGnoValue,
