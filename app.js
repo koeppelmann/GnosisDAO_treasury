@@ -571,26 +571,74 @@ async function updateNAV() {
     let daoGnoValue = 0;
     let totalPortfolioValue = 0;
 
+    // Track items to exclude from double/triple counting
+    let aaveReceiptTokenValue = 0;  // aEthWETH, aEthDAI etc that duplicate Aave deposits
+    let osGnoLoanValue = 0;         // osGNO "loan" positions that duplicate StakeWise deposits
+    let gnoDerivativeValue = 0;     // osGNO and GNO in LPs (should be treated like GNO for NAV)
+    let gnoDerivativeQty = 0;       // Quantity of GNO-equivalent in derivatives/LPs
+
     for (const [wallet, positions] of Object.entries(zerionData)) {
         for (const pos of positions) {
             const attrs = pos.attributes || {};
             const sym = (attrs.fungible_info?.symbol || '').toUpperCase();
             const qty = attrs.quantity?.float || 0;
             const val = attrs.value || 0;
+            const posType = attrs.position_type || '';
+            const protocol = (attrs.protocol || '').toLowerCase();
 
             // Skip trash/spam
             if (attrs.fungible_info?.flags?.is_trash) continue;
             const name = attrs.fungible_info?.name || '';
             if (name.includes('.') && (name.includes('http') || name.includes('www') || name.length > 40)) continue;
 
+            // Skip $0 value positions (locked/vesting with no current value)
+            if (val <= 0) continue;
+
             totalPortfolioValue += val;
 
+            // Track GNO and GNO-equivalent holdings
             if (sym === 'GNO') {
-                daoGnoQuantity += qty;
-                daoGnoValue += val;
+                // Check if this is GNO in an LP or StakeWise deposit
+                if (posType === 'deposit' && protocol.includes('stakewise')) {
+                    // GNO deposited in StakeWise - count as GNO holding
+                    daoGnoQuantity += qty;
+                    daoGnoValue += val;
+                } else if (posType === 'liquidity' || posType === 'deposit') {
+                    // GNO in LP positions - count as GNO holding for NAV purposes
+                    daoGnoQuantity += qty;
+                    daoGnoValue += val;
+                } else {
+                    // Regular GNO wallet holdings
+                    daoGnoQuantity += qty;
+                    daoGnoValue += val;
+                }
+            }
+            // osGNO derivatives - treat as GNO-equivalent
+            else if (sym === 'OSGNO') {
+                if (posType === 'loan' && protocol.includes('stakewise')) {
+                    // osGNO "loan" is a duplicate of the StakeWise deposit - exclude from total
+                    osGnoLoanValue += val;
+                } else {
+                    // osGNO in wallet or deposited elsewhere - count as GNO-equivalent
+                    gnoDerivativeQty += qty;
+                    gnoDerivativeValue += val;
+                }
+            }
+            // Aave receipt tokens - check for double counting
+            else if (sym.startsWith('AETH') && posType === 'wallet') {
+                // aEthWETH, aEthDAI etc in wallet duplicate Aave V3 deposits
+                aaveReceiptTokenValue += val;
             }
         }
     }
+
+    // Adjust for double counting
+    totalPortfolioValue -= aaveReceiptTokenValue;  // Remove Aave receipt token duplicates
+    totalPortfolioValue -= osGnoLoanValue;         // Remove osGNO loan duplicates
+
+    // Add GNO derivatives to GNO totals (they represent GNO holdings)
+    daoGnoQuantity += gnoDerivativeQty;
+    daoGnoValue += gnoDerivativeValue;
 
     // If excluding Ltd. GNO, fetch the balance and remove from circulating supply
     let ltdGnoExclusion = 0;
@@ -604,6 +652,20 @@ async function updateNAV() {
     const outstandingGno = effectiveSupply - daoGnoQuantity;
     const nonGnoValue = totalPortfolioValue - daoGnoValue;
     const navPerGno = outstandingGno > 0 ? nonGnoValue / outstandingGno : 0;
+
+    // Log adjustments for debugging
+    console.log('NAV Adjustments:', {
+        aaveReceiptTokenValue,
+        osGnoLoanValue,
+        gnoDerivativeValue,
+        gnoDerivativeQty,
+        totalPortfolioValue,
+        daoGnoQuantity,
+        daoGnoValue,
+        nonGnoValue,
+        outstandingGno,
+        navPerGno
+    });
 
     // Update DOM
     document.getElementById('nav-per-gno').textContent = '$' + navPerGno.toFixed(2);
