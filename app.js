@@ -23,7 +23,7 @@ const CATEGORIES = {
     stables: {
         name: 'Stablecoins',
         icon: '$',
-        symbols: ['USDC', 'USDT', 'DAI', 'FRAX', 'LUSD', 'BUSD', 'TUSD', 'USDP', 'GUSD', 'sUSD', 'USDD', 'USDM', 'crvUSD', 'GHO', 'PYUSD', 'FDUSD', 'USD+', 'eUSD', 'USDe', 'sDAI', 'sUSDe', 'WXDAI', 'xDAI', 'EURe', 'EURS']
+        symbols: ['USDC', 'USDT', 'DAI', 'FRAX', 'LUSD', 'BUSD', 'TUSD', 'USDP', 'GUSD', 'sUSD', 'USDD', 'USDM', 'crvUSD', 'GHO', 'PYUSD', 'FDUSD', 'USD+', 'eUSD', 'USDe', 'sDAI', 'sUSDe', 'WXDAI', 'xDAI', 'EURe', 'EURS', 'USDS', 'sUSDS']
     },
     other: {
         name: 'Other',
