@@ -1,0 +1,213 @@
+{
+  "date": "2026-05-30",
+  "fetched_at": "2026-05-30T06:56:27.456475Z",
+  "totals": {
+    "zerion": 356728766.16,
+    "debank": 356397782.13
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1372523.4715,
+      "value": 157653306.59
+    },
+    "STETH": {
+      "quantity": 37650.2192,
+      "value": 86962146.71
+    },
+    "DAI": {
+      "quantity": 23988772.6544,
+      "value": 26165964.75
+    },
+    "USDC": {
+      "quantity": 21264102.5066,
+      "value": 21229847.18
+    },
+    "SAFE": {
+      "quantity": 541652159.1437,
+      "value": 14273891.45
+    },
+    "COW": {
+      "quantity": 74821328.9096,
+      "value": 12116188.23
+    },
+    "EURE": {
+      "quantity": 5329230.4151,
+      "value": 6209385.56
+    },
+    "SUSDS": {
+      "quantity": 3519444.5197,
+      "value": 3862921.17
+    },
+    "OSGNO": {
+      "quantity": 28882.399,
+      "value": 3810948.93
+    },
+    "HOPR": {
+      "quantity": 170294970.5353,
+      "value": 3262201.63
+    },
+    "JTRSY": {
+      "quantity": 2933918.8457,
+      "value": 3239071.36
+    },
+    "ETH": {
+      "quantity": 1572.99,
+      "value": 3168689.79
+    },
+    "GHO": {
+      "quantity": 1697642.2644,
+      "value": 1695812.65
+    },
+    "AETHWETH": {
+      "quantity": 799.9633,
+      "value": 1607692.07
+    },
+    "AETHDAI": {
+      "quantity": 1456754.2563,
+      "value": 1454450.83
+    },
+    "BCSPX": {
+      "quantity": 1736.0486,
+      "value": 1416495.33
+    },
+    "WBTC": {
+      "quantity": 16.8892,
+      "value": 1239373.61
+    },
+    "BIB01": {
+      "quantity": 9514.3004,
+      "value": 1146321.47
+    },
+    "BIBTA": {
+      "quantity": 189226.4034,
+      "value": 1123872.96
+    },
+    "RETH": {
+      "quantity": 306.2344,
+      "value": 719105.33
+    },
+    "OSETH": {
+      "quantity": 309.3431,
+      "value": 653227.48
+    },
+    "CFG": {
+      "quantity": 2077242.4137,
+      "value": 560318.83
+    },
+    "AURABAL": {
+      "quantity": 875034.6992,
+      "value": 420679.82
+    },
+    "BRLA": {
+      "quantity": 1953232.6042,
+      "value": 385889.43
+    },
+    "ZCHF": {
+      "quantity": 275191.7404,
+      "value": 351650.31
+    },
+    "OLAS": {
+      "quantity": 10469068.6817,
+      "value": 315688.17
+    },
+    "GRT": {
+      "quantity": 12113896.1346,
+      "value": 313135.04
+    },
+    "GBPE": {
+      "quantity": 226938.4926,
+      "value": 305123.93
+    },
+    "PNK": {
+      "quantity": 23347316.8814,
+      "value": 257718.74
+    },
+    "BAL": {
+      "quantity": 1523966.3588,
+      "value": 202510.39
+    },
+    "BZZ": {
+      "quantity": 2557235.4015,
+      "value": 177679.14
+    },
+    "EURC.E": {
+      "quantity": 136203.1453,
+      "value": 158583.67
+    },
+    "SKY": {
+      "quantity": 902015.3772,
+      "value": 58772.63
+    },
+    "USDT": {
+      "quantity": 46880.0804,
+      "value": 46817.28
+    },
+    "SPK": {
+      "quantity": 1615596.2627,
+      "value": 38889.22
+    },
+    "USDS": {
+      "quantity": 23564.3452,
+      "value": 23555.07
+    },
+    "AAVE": {
+      "quantity": 253.9802,
+      "value": 21004.15
+    },
+    "AURA": {
+      "quantity": 1895031.3941,
+      "value": 20575.23
+    },
+    "SHU": {
+      "quantity": 8000000,
+      "value": 15458.71
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 12184.27
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 8687.55
+    },
+    "AZUR": {
+      "quantity": 7876448.0,
+      "value": 6244.44
+    },
+    "GEL": {
+      "quantity": 2370846.9538,
+      "value": 3559.24
+    },
+    "AGVE": {
+      "quantity": 103.5947,
+      "value": 3140.2
+    },
+    "LINK": {
+      "quantity": 196.391,
+      "value": 1799.55
+    },
+    "SWPR": {
+      "quantity": 176421.0548,
+      "value": 1321.56
+    },
+    "HOP": {
+      "quantity": 1698345.9171,
+      "value": 1240.97
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 1033.03
+    },
+    "RDNN": {
+      "quantity": 1550188.1,
+      "value": 951.16
+    },
+    "RESOLV": {
+      "quantity": 31404,
+      "value": 686.98
+    }
+  },
+  "nav_per_gno": 157.12,
+  "dao_gno_holdings": 1372523.47,
+  "ltd_gno_balance": 360411
+}
