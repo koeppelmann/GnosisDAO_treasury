@@ -1,6 +1,12 @@
 {
   "snapshots": [
     {
+      "date": "2026-06-05",
+      "zerion_total": 300866787.11,
+      "debank_total": 304552317.75,
+      "nav_per_gno": 135.65
+    },
+    {
       "date": "2026-06-04",
       "zerion_total": 318931251.93,
       "debank_total": 322200313.6,
