@@ -1,0 +1,213 @@
+{
+  "date": "2026-08-15",
+  "fetched_at": "2026-08-15T06:04:57.720865Z",
+  "totals": {
+    "zerion": 213386588.74,
+    "debank": 215557267.49
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1402461.4286,
+      "value": 145010851.42
+    },
+    "USDC": {
+      "quantity": 14382808.6495,
+      "value": 14362678.92
+    },
+    "OSGNO": {
+      "quantity": 77711.5101,
+      "value": 9287076.42
+    },
+    "SAFE": {
+      "quantity": 528096883.879,
+      "value": 8502962.1
+    },
+    "COW": {
+      "quantity": 76631107.4767,
+      "value": 7823372.58
+    },
+    "EURE": {
+      "quantity": 5509522.6574,
+      "value": 6369905.24
+    },
+    "STETH": {
+      "quantity": 2098.8303,
+      "value": 4892227.16
+    },
+    "DAI": {
+      "quantity": 3891772.6334,
+      "value": 4160335.61
+    },
+    "ETH": {
+      "quantity": 2205.615,
+      "value": 4144574.47
+    },
+    "JTRSY": {
+      "quantity": 2933918.8457,
+      "value": 3265294.42
+    },
+    "SUSDS": {
+      "quantity": 1633872.1125,
+      "value": 1807666.24
+    },
+    "HOPR": {
+      "quantity": 148907701.639,
+      "value": 1636920.32
+    },
+    "BRLA": {
+      "quantity": 2308453.8107,
+      "value": 443069.2
+    },
+    "ZCHF": {
+      "quantity": 328157.8313,
+      "value": 403996.9
+    },
+    "AETHWETH": {
+      "quantity": 202.7701,
+      "value": 381760.95
+    },
+    "WBTC": {
+      "quantity": 5.4339,
+      "value": 342397.34
+    },
+    "PNK": {
+      "quantity": 20067038.2433,
+      "value": 164785.59
+    },
+    "BAL": {
+      "quantity": 1381449.6079,
+      "value": 146191.52
+    },
+    "GBPE": {
+      "quantity": 51747.1384,
+      "value": 69323.69
+    },
+    "USDT": {
+      "quantity": 47109.9607,
+      "value": 47073.12
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 40106.48
+    },
+    "GHO": {
+      "quantity": 34606.7169,
+      "value": 34549.44
+    },
+    "USDS": {
+      "quantity": 23564.3452,
+      "value": 23564.17
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 8769.97
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 7879.21
+    },
+    "AAVE": {
+      "quantity": 51.6254,
+      "value": 4483.19
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 1420.9
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 836.32
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 525.27
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 483.71
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 324.39
+    },
+    "SOX": {
+      "quantity": 10,
+      "value": 316.85
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 259.94
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 170.05
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 86.86
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 60.26
+    },
+    "AURA": {
+      "quantity": 3696.7065,
+      "value": 59.6
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 57.81
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 20.43
+    },
+    "COMP": {
+      "quantity": 2.5256,
+      "value": 19.48
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 17.44
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 15.84
+    },
+    "MORPHO": {
+      "quantity": 7.6722,
+      "value": 14.94
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.85
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 9.85
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 8.28
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 7.94
+    },
+    "X3CRV": {
+      "quantity": 7.7135,
+      "value": 7.8
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 7.39
+    },
+    "BANK": {
+      "quantity": 37422.03,
+      "value": 5.59
+    }
+  },
+  "nav_per_gno": 55.27,
+  "dao_gno_holdings": 1402461.43,
+  "ltd_gno_balance": 360411
+}
