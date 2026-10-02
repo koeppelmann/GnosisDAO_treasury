@@ -1,0 +1,213 @@
+{
+  "date": "2026-10-02",
+  "fetched_at": "2026-10-02T06:06:35.035717Z",
+  "totals": {
+    "zerion": 239036392.1,
+    "debank": 0
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1421276.9846,
+      "value": 171197545.35
+    },
+    "COW": {
+      "quantity": 76771046.0138,
+      "value": 12744536.95
+    },
+    "USDC": {
+      "quantity": 12433898.9913,
+      "value": 12424244.35
+    },
+    "OSGNO": {
+      "quantity": 77674.2878,
+      "value": 10865589.74
+    },
+    "SAFE": {
+      "quantity": 528096883.879,
+      "value": 10589196.98
+    },
+    "STETH": {
+      "quantity": 1887.9644,
+      "value": 6394468.27
+    },
+    "DAI": {
+      "quantity": 4243333.0637,
+      "value": 4240747.12
+    },
+    "EURE": {
+      "quantity": 2831458.1641,
+      "value": 3185905.69
+    },
+    "HOPR": {
+      "quantity": 148907701.639,
+      "value": 1979164.55
+    },
+    "ETH": {
+      "quantity": 720.786,
+      "value": 1962791.6
+    },
+    "SUSDS": {
+      "quantity": 1280032.3337,
+      "value": 1422614.45
+    },
+    "WBTC": {
+      "quantity": 7.0065,
+      "value": 602147.2
+    },
+    "BRLA": {
+      "quantity": 2321089.5811,
+      "value": 442988.7
+    },
+    "ZCHF": {
+      "quantity": 362180.2856,
+      "value": 434859.38
+    },
+    "GBPE": {
+      "quantity": 127526.191,
+      "value": 168579.15
+    },
+    "PNK": {
+      "quantity": 20067038.2433,
+      "value": 166701.38
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 61045.65
+    },
+    "USDT": {
+      "quantity": 47184.3832,
+      "value": 47170.98
+    },
+    "GHO": {
+      "quantity": 34742.8961,
+      "value": 34719.21
+    },
+    "GRT": {
+      "quantity": 1050365,
+      "value": 30381.53
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 9478.53
+    },
+    "AAVE": {
+      "quantity": 51.6254,
+      "value": 9398.48
+    },
+    "BAL": {
+      "quantity": 61025.5398,
+      "value": 8172.69
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 7937.87
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 1156.68
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 1122.24
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 763.99
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 689.1
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 488.51
+    },
+    "SOX": {
+      "quantity": 10,
+      "value": 450.82
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 260.69
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 237.05
+    },
+    "OSETH": {
+      "quantity": 0.0649,
+      "value": 190.06
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 161.66
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 108.37
+    },
+    "AURA": {
+      "quantity": 3696.7065,
+      "value": 84.27
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 76.0
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 31.09
+    },
+    "COMP": {
+      "quantity": 2.5256,
+      "value": 29.39
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 23.34
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 22.12
+    },
+    "MORPHO": {
+      "quantity": 7.6722,
+      "value": 20.03
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 12.63
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.85
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 10.03
+    },
+    "AETHWETH": {
+      "quantity": 0.0036,
+      "value": 9.82
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 9.07
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 7.42
+    },
+    "NEXT": {
+      "quantity": 84210.5263,
+      "value": 6.48
+    },
+    "BANK": {
+      "quantity": 37422.03,
+      "value": 4.36
+    }
+  },
+  "nav_per_gno": 55.68,
+  "dao_gno_holdings": 1421276.98,
+  "ltd_gno_balance": 360411
+}
