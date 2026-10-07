@@ -1,0 +1,213 @@
+{
+  "date": "2026-10-07",
+  "fetched_at": "2026-10-07T06:05:58.489526Z",
+  "totals": {
+    "zerion": 236462204.83,
+    "debank": 0
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1420631.3327,
+      "value": 170060011.93
+    },
+    "USDC": {
+      "quantity": 12356367.4725,
+      "value": 12347670.46
+    },
+    "COW": {
+      "quantity": 76771046.0138,
+      "value": 11348274.52
+    },
+    "OSGNO": {
+      "quantity": 77685.6955,
+      "value": 10811302.7
+    },
+    "SAFE": {
+      "quantity": 528096883.879,
+      "value": 10775411.67
+    },
+    "STETH": {
+      "quantity": 1788.942,
+      "value": 5828378.88
+    },
+    "EURE": {
+      "quantity": 3657144.3243,
+      "value": 4112274.42
+    },
+    "DAI": {
+      "quantity": 4025853.3756,
+      "value": 4006444.95
+    },
+    "HOPR": {
+      "quantity": 148907701.639,
+      "value": 1992906.04
+    },
+    "ETH": {
+      "quantity": 712.6557,
+      "value": 1866905.02
+    },
+    "USDS": {
+      "quantity": 1423259.1798,
+      "value": 1421818.84
+    },
+    "WBTC": {
+      "quantity": 6.8974,
+      "value": 581176.69
+    },
+    "BRLA": {
+      "quantity": 2095013.6395,
+      "value": 416848.02
+    },
+    "ZCHF": {
+      "quantity": 300077.6446,
+      "value": 360903.63
+    },
+    "GBPE": {
+      "quantity": 127526.191,
+      "value": 169523.28
+    },
+    "PNK": {
+      "quantity": 20067038.2433,
+      "value": 163978.4
+    },
+    "USDT": {
+      "quantity": 47183.858,
+      "value": 47177.58
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 46927.11
+    },
+    "GHO": {
+      "quantity": 34753.7044,
+      "value": 34735.18
+    },
+    "GRT": {
+      "quantity": 1050365,
+      "value": 29105.47
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 9418.89
+    },
+    "AAVE": {
+      "quantity": 51.6254,
+      "value": 9062.48
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 7934.08
+    },
+    "BAL": {
+      "quantity": 61025.5398,
+      "value": 7914.62
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 1327.17
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 1071.91
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 734.42
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 632.67
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 473.12
+    },
+    "SOX": {
+      "quantity": 10,
+      "value": 434.58
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 261.24
+    },
+    "AURA": {
+      "quantity": 9256.6965,
+      "value": 225.24
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 221.4
+    },
+    "OSETH": {
+      "quantity": 0.0649,
+      "value": 183.1
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 143.82
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 106.78
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 72.53
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 28.69
+    },
+    "COMP": {
+      "quantity": 2.5256,
+      "value": 27.86
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 22.21
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 22.07
+    },
+    "MORPHO": {
+      "quantity": 7.6722,
+      "value": 19.76
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 14.72
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.85
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 9.99
+    },
+    "AETHWETH": {
+      "quantity": 0.0036,
+      "value": 9.46
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 9.03
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 7.42
+    },
+    "NEXT": {
+      "quantity": 84210.5263,
+      "value": 6.25
+    },
+    "RLUSD": {
+      "quantity": 4.1612,
+      "value": 4.16
+    }
+  },
+  "nav_per_gno": 54.47,
+  "dao_gno_holdings": 1420631.33,
+  "ltd_gno_balance": 360411
+}
