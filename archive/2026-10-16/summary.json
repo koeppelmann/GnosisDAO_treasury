@@ -1,0 +1,213 @@
+{
+  "date": "2026-10-16",
+  "fetched_at": "2026-10-16T06:06:06.278001Z",
+  "totals": {
+    "zerion": 225148591.65,
+    "debank": 0
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1420911.9825,
+      "value": 163531398.9
+    },
+    "SAFE": {
+      "quantity": 528096883.879,
+      "value": 11071251.44
+    },
+    "OSGNO": {
+      "quantity": 77655.929,
+      "value": 10428194.28
+    },
+    "COW": {
+      "quantity": 76771046.0138,
+      "value": 10309596.54
+    },
+    "USDC": {
+      "quantity": 9134950.1802,
+      "value": 9124490.65
+    },
+    "STETH": {
+      "quantity": 1855.1104,
+      "value": 5642250.63
+    },
+    "EURE": {
+      "quantity": 4910186.2193,
+      "value": 5504014.33
+    },
+    "DAI": {
+      "quantity": 3631018.8033,
+      "value": 3615342.6
+    },
+    "ETH": {
+      "quantity": 900.0871,
+      "value": 2201904.89
+    },
+    "HOPR": {
+      "quantity": 148907701.639,
+      "value": 1894960.34
+    },
+    "WBTC": {
+      "quantity": 6.5665,
+      "value": 538274.96
+    },
+    "BRLA": {
+      "quantity": 2088913.1518,
+      "value": 408679.64
+    },
+    "ZCHF": {
+      "quantity": 290238.024,
+      "value": 350585.77
+    },
+    "GBPE": {
+      "quantity": 127526.191,
+      "value": 169872.27
+    },
+    "PNK": {
+      "quantity": 20067038.2433,
+      "value": 167140.96
+    },
+    "USDT": {
+      "quantity": 47185.3658,
+      "value": 47144.27
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 43141.62
+    },
+    "GHO": {
+      "quantity": 34769.3841,
+      "value": 34725.29
+    },
+    "GRT": {
+      "quantity": 1050365,
+      "value": 26590.18
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 9230.39
+    },
+    "AAVE": {
+      "quantity": 57.1173,
+      "value": 9090.05
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 7753.09
+    },
+    "BAL": {
+      "quantity": 61025.5398,
+      "value": 7486.75
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 1025.93
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 938.05
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 687.41
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 603.49
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 443.58
+    },
+    "SOX": {
+      "quantity": 10,
+      "value": 404.92
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 260.83
+    },
+    "AURA": {
+      "quantity": 9256.6965,
+      "value": 238.17
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 200.49
+    },
+    "OSETH": {
+      "quantity": 0.065,
+      "value": 170.81
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 131.66
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 119.08
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 68.86
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 27.85
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 25.65
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 22.16
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 20.71
+    },
+    "COMP": {
+      "quantity": 1.9215,
+      "value": 13.52
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.85
+    },
+    "AETHWETH": {
+      "quantity": 0.0036,
+      "value": 8.87
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 8.65
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 8.64
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 7.41
+    },
+    "NEXT": {
+      "quantity": 84210.5263,
+      "value": 5.44
+    },
+    "BANK": {
+      "quantity": 37422.03,
+      "value": 3.88
+    },
+    "OMG": {
+      "quantity": 62.245,
+      "value": 3.25
+    },
+    "FXS": {
+      "quantity": 9.3552,
+      "value": 2.77
+    }
+  },
+  "nav_per_gno": 50.56,
+  "dao_gno_holdings": 1420911.98,
+  "ltd_gno_balance": 360411
+}
