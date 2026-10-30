@@ -1,0 +1,213 @@
+{
+  "date": "2026-10-30",
+  "fetched_at": "2026-10-30T06:05:00.365823Z",
+  "totals": {
+    "zerion": 203452860.26,
+    "debank": 0
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1411709.4149,
+      "value": 151773823.26
+    },
+    "OSGNO": {
+      "quantity": 77717.1583,
+      "value": 9694399.51
+    },
+    "COW": {
+      "quantity": 81111756.9233,
+      "value": 8799662.97
+    },
+    "SAFE": {
+      "quantity": 528114969.7563,
+      "value": 8078708.39
+    },
+    "USDC": {
+      "quantity": 7690603.8805,
+      "value": 7676036.84
+    },
+    "EURE": {
+      "quantity": 4774544.6377,
+      "value": 5341719.38
+    },
+    "STETH": {
+      "quantity": 1574.9124,
+      "value": 4387841.1
+    },
+    "DAI": {
+      "quantity": 3180174.1179,
+      "value": 3219960.82
+    },
+    "HOPR": {
+      "quantity": 148907701.639,
+      "value": 1775719.71
+    },
+    "ETH": {
+      "quantity": 385.0682,
+      "value": 862035.92
+    },
+    "WBTC": {
+      "quantity": 6.229,
+      "value": 488368.45
+    },
+    "BRLA": {
+      "quantity": 2593750.138,
+      "value": 482525.69
+    },
+    "ZCHF": {
+      "quantity": 280719.7575,
+      "value": 339976.23
+    },
+    "GBPE": {
+      "quantity": 127526.191,
+      "value": 182365.19
+    },
+    "PNK": {
+      "quantity": 20067038.2433,
+      "value": 165469.22
+    },
+    "USDT": {
+      "quantity": 47185.3718,
+      "value": 47122.38
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 44944.69
+    },
+    "GHO": {
+      "quantity": 34795.6147,
+      "value": 34746.15
+    },
+    "GRT": {
+      "quantity": 1050365,
+      "value": 19952.32
+    },
+    "BAL": {
+      "quantity": 89660.4408,
+      "value": 11011.21
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 9055.37
+    },
+    "AAVE": {
+      "quantity": 57.1173,
+      "value": 7200.05
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 6461.01
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 846.42
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 674.81
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 517.99
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 354.23
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 269.28
+    },
+    "AURA": {
+      "quantity": 9256.6965,
+      "value": 177.53
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 174.49
+    },
+    "OSETH": {
+      "quantity": 0.065,
+      "value": 156.56
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 135.44
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 119.01
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 99.99
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 57.14
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 21.97
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 21.95
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 18.27
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 16.53
+    },
+    "MORPHO": {
+      "quantity": 7.6722,
+      "value": 15.29
+    },
+    "COMP": {
+      "quantity": 2.5256,
+      "value": 12.18
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.85
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 8.53
+    },
+    "AETHWETH": {
+      "quantity": 0.0036,
+      "value": 8.13
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 7.66
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 7.41
+    },
+    "NEXT": {
+      "quantity": 84210.5263,
+      "value": 5.16
+    },
+    "BANK": {
+      "quantity": 37422.03,
+      "value": 3.6
+    },
+    "OMG": {
+      "quantity": 62.245,
+      "value": 2.83
+    },
+    "FXS": {
+      "quantity": 9.3552,
+      "value": 2.35
+    }
+  },
+  "nav_per_gno": 42.09,
+  "dao_gno_holdings": 1411709.41,
+  "ltd_gno_balance": 360411
+}
