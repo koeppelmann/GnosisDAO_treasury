@@ -1,0 +1,213 @@
+{
+  "date": "2026-11-07",
+  "fetched_at": "2026-11-07T06:03:42.230694Z",
+  "totals": {
+    "zerion": 214460885.78,
+    "debank": 0
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1409024.4614,
+      "value": 160771497.01
+    },
+    "OSGNO": {
+      "quantity": 77765.7772,
+      "value": 10305199.24
+    },
+    "COW": {
+      "quantity": 81111756.9233,
+      "value": 8927911.25
+    },
+    "SAFE": {
+      "quantity": 97141293.649,
+      "value": 8396236.93
+    },
+    "USDC": {
+      "quantity": 7782064.7074,
+      "value": 7770515.09
+    },
+    "EURE": {
+      "quantity": 4741993.1153,
+      "value": 5286718.27
+    },
+    "STETH": {
+      "quantity": 1587.5547,
+      "value": 4447041.27
+    },
+    "HOPR": {
+      "quantity": 279353353.639,
+      "value": 3301400.78
+    },
+    "DAI": {
+      "quantity": 2435198.9775,
+      "value": 2477113.37
+    },
+    "ETH": {
+      "quantity": 390.5586,
+      "value": 877459.65
+    },
+    "WBTC": {
+      "quantity": 6.412,
+      "value": 486918.32
+    },
+    "BRLA": {
+      "quantity": 2693118.4688,
+      "value": 484549.49
+    },
+    "ZCHF": {
+      "quantity": 284939.414,
+      "value": 347702.22
+    },
+    "PNK": {
+      "quantity": 25415974.0522,
+      "value": 207861.71
+    },
+    "GBPE": {
+      "quantity": 127526.191,
+      "value": 170449.42
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 63515.85
+    },
+    "USDT": {
+      "quantity": 47185.3804,
+      "value": 47145.74
+    },
+    "GHO": {
+      "quantity": 34807.6855,
+      "value": 34758.93
+    },
+    "GRT": {
+      "quantity": 1050365,
+      "value": 20106.95
+    },
+    "BAL": {
+      "quantity": 89660.4408,
+      "value": 10638.51
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 9050.99
+    },
+    "AAVE": {
+      "quantity": 57.1173,
+      "value": 7532.96
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 5938.56
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 849.41
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 631.91
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 441.13
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 358.34
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 265.44
+    },
+    "AURA": {
+      "quantity": 9256.6965,
+      "value": 207.57
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 169.02
+    },
+    "OSETH": {
+      "quantity": 0.0651,
+      "value": 147.02
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 123.9
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 108.09
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 91.22
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 57.89
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 21.89
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 21.65
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 18.51
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 17.39
+    },
+    "MORPHO": {
+      "quantity": 7.6722,
+      "value": 16.15
+    },
+    "COMP": {
+      "quantity": 2.5256,
+      "value": 12.1
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.85
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 8.46
+    },
+    "AETHWETH": {
+      "quantity": 0.0036,
+      "value": 8.12
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 7.55
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 7.41
+    },
+    "NEXT": {
+      "quantity": 84210.5263,
+      "value": 5.14
+    },
+    "BANK": {
+      "quantity": 37422.03,
+      "value": 3.53
+    },
+    "OMG": {
+      "quantity": 62.245,
+      "value": 2.81
+    },
+    "FXS": {
+      "quantity": 9.3552,
+      "value": 2.3
+    }
+  },
+  "nav_per_gno": 43.63,
+  "dao_gno_holdings": 1409024.46,
+  "ltd_gno_balance": 360411
+}
