@@ -1,0 +1,213 @@
+{
+  "date": "2026-11-27",
+  "fetched_at": "2026-11-27T06:04:09.669191Z",
+  "totals": {
+    "zerion": 172715236.33,
+    "debank": 172791118.55
+  },
+  "assets": {
+    "GNO": {
+      "quantity": 1424753.9088,
+      "value": 124719258.69
+    },
+    "COW": {
+      "quantity": 81111756.9233,
+      "value": 8157946.68
+    },
+    "OSGNO": {
+      "quantity": 77781.2493,
+      "value": 8031534.04
+    },
+    "SAFE": {
+      "quantity": 97143980.5924,
+      "value": 7858590.46
+    },
+    "EURE": {
+      "quantity": 6436889.2199,
+      "value": 7067467.64
+    },
+    "USDC": {
+      "quantity": 6383396.5123,
+      "value": 6372367.56
+    },
+    "STETH": {
+      "quantity": 1702.0145,
+      "value": 3696973.62
+    },
+    "HOPR": {
+      "quantity": 279353353.639,
+      "value": 2712422.28
+    },
+    "DAI": {
+      "quantity": 2048958.8391,
+      "value": 2070720.2
+    },
+    "ETH": {
+      "quantity": 388.7542,
+      "value": 676293.77
+    },
+    "BRLA": {
+      "quantity": 2701589.3244,
+      "value": 480534.33
+    },
+    "WBTC": {
+      "quantity": 5.5607,
+      "value": 343593.7
+    },
+    "GBPE": {
+      "quantity": 129031.2442,
+      "value": 175311.98
+    },
+    "PNK": {
+      "quantity": 25415974.0522,
+      "value": 149925.56
+    },
+    "BZZ": {
+      "quantity": 1018769.5589,
+      "value": 90718.99
+    },
+    "GHO": {
+      "quantity": 35222.7622,
+      "value": 35171.51
+    },
+    "USDT": {
+      "quantity": 27185.3509,
+      "value": 27155.65
+    },
+    "GRT": {
+      "quantity": 1050365,
+      "value": 17675.36
+    },
+    "OWL": {
+      "quantity": 1087933.3478,
+      "value": 8523.67
+    },
+    "ZCHF": {
+      "quantity": 4993.0947,
+      "value": 5984.99
+    },
+    "AAVE": {
+      "quantity": 57.1173,
+      "value": 5520.93
+    },
+    "GIV": {
+      "quantity": 16695220.0794,
+      "value": 4394.42
+    },
+    "BAL": {
+      "quantity": 35020.3936,
+      "value": 4008.25
+    },
+    "UNCX": {
+      "quantity": 38.7324,
+      "value": 649.5
+    },
+    "ETH+": {
+      "quantity": 0.2555,
+      "value": 489.84
+    },
+    "SOX": {
+      "quantity": 10,
+      "value": 287.85
+    },
+    "HOP": {
+      "quantity": 1105506.9987,
+      "value": 279.62
+    },
+    "LDO": {
+      "quantity": 1092.4392,
+      "value": 266.45
+    },
+    "LUSD": {
+      "quantity": 259.305,
+      "value": 260.84
+    },
+    "RPL": {
+      "quantity": 121.7866,
+      "value": 160.2
+    },
+    "AURA": {
+      "quantity": 9256.6965,
+      "value": 159.87
+    },
+    "OSETH": {
+      "quantity": 0.0652,
+      "value": 122.4
+    },
+    "AZUR": {
+      "quantity": 1968214.1751,
+      "value": 119.05
+    },
+    "UNI": {
+      "quantity": 17.6241,
+      "value": 85.85
+    },
+    "SD": {
+      "quantity": 886.7213,
+      "value": 69.8
+    },
+    "1INCH": {
+      "quantity": 728.7256,
+      "value": 42.99
+    },
+    "SSV": {
+      "quantity": 9.74,
+      "value": 25.95
+    },
+    "HAUS": {
+      "quantity": 228.2275,
+      "value": 17.81
+    },
+    "ANKR": {
+      "quantity": 4681.7624,
+      "value": 15.23
+    },
+    "MORPHO": {
+      "quantity": 7.6722,
+      "value": 12.76
+    },
+    "AETHDAI": {
+      "quantity": 11.8506,
+      "value": 11.84
+    },
+    "BAT": {
+      "quantity": 140,
+      "value": 11.13
+    },
+    "COMP": {
+      "quantity": 1.9215,
+      "value": 10.98
+    },
+    "STAKE": {
+      "quantity": 296.382,
+      "value": 7.06
+    },
+    "AETHWETH": {
+      "quantity": 0.0036,
+      "value": 6.31
+    },
+    "PSP": {
+      "quantity": 7800,
+      "value": 6.02
+    },
+    "LQTY": {
+      "quantity": 42.2129,
+      "value": 5.54
+    },
+    "NEXT": {
+      "quantity": 84210.5263,
+      "value": 3.77
+    },
+    "BANK": {
+      "quantity": 37422.03,
+      "value": 2.74
+    },
+    "OMG": {
+      "quantity": 62.245,
+      "value": 2.36
+    }
+  },
+  "nav_per_gno": 39.51,
+  "dao_gno_holdings": 1424753.91,
+  "ltd_gno_balance": 360411
+}
